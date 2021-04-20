@@ -1,10 +1,11 @@
-import React, { Fragment, SVGProps } from "react"
+import React, { Fragment } from "react"
 import { useForm } from "react-hook-form"
 import { differenceInCalendarDays } from "date-fns"
-import { Menu, Transition } from "@headlessui/react";
+import { Menu, Transition } from "@headlessui/react"
+import classNames from "classnames"
 
 import { usePersistedState } from "../UsePersistedState"
-import classNames from "classnames";
+import { MoreIcon } from "../components/MoreIcon";
 
 interface Item {
   id: string
@@ -37,28 +38,13 @@ const NewItem = ({ ok }: { ok: (x: FormValues) => void }) => {
   )
 }
 
-const More = (props: SVGProps<SVGSVGElement>): JSX.Element => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-    {...props}
-  >
-    <circle cx="12" cy="12" r="1" />
-    <circle cx="12" cy="5" r="1" />
-    <circle cx="12" cy="19" r="1" />
-  </svg>
-)
-
 const ItemComp = ({ item: { date, name, id }, del }: {
   item: Item
   del: (x: string) => void
 }) => {
   const diff = differenceInCalendarDays(new Date(date), new Date())
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center w-full justify-between">
       <div>
         {Math.abs(diff)} days {diff > 0 ? 'before' : 'since'} {name}
       </div>
@@ -66,7 +52,7 @@ const ItemComp = ({ item: { date, name, id }, del }: {
         ({ open }) => (
           <>
             <Menu.Button className="w-12 h-12 flex justify-center items-center">
-              <More />
+              <MoreIcon />
             </Menu.Button>
 
             <Transition
@@ -115,7 +101,7 @@ export default function Index(): JSX.Element {
       id: Math.random().toString(36).substring(2),
       ...x,
     }
-    setList(list => ([...list, y]))
+    setList(list => ([y, ...list]))
   }
 
   const del = (toDelete: string) => {
