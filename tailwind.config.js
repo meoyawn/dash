@@ -3,15 +3,13 @@ module.exports = {
   mode: 'jit',
   darkMode: 'media',
   plugins: [
-
+    require('@tailwindcss/forms'),
   ],
   purge: {
     content: [
       './src/**/*.{jsx,tsx}'
     ]
   },
-  theme: {
-
-  },
+  theme: {},
   variants: {},
 }
